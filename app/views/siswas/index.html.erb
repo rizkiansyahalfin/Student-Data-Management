@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+<p>
+  Download:
+  <%= link_to "CSV", siswas_path(format: "csv") %> |
+  <%= link_to "Excel", siswas_path(format: "xls") %>
+</p>
+
+<h2>Import Students</h2>
+<%= form_tag import_siswas_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>
+
+<br>
+<title>Data Siswa</title>
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <h1 align="center">Siswa</h1>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <div class="container">
+            <%= link_to 'New Siswa', new_siswa_path, class: 'btn btn-primary' %> 
+          </div>
+        </div>
+      <br>
+      <table id="example" class="table table-striped table-bordered table-hover table-condensed table-sm">
+        <caption>Table Siswa</caption>
+          <thead align="center" class="table-dark">
+            <tr>
+              <th>Nama</th>
+              <th>Jenis Kelamin</th>
+              <th>Rombel</th>
+              <th>Rayon</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody align="center" id="static-table">
+          <% @siswas.each do |siswa| %> 
+          <tr>
+            <td><%= siswa.nama.titleize %></td>
+            <td><%= siswa.jk %></td>
+            <td><%= siswa.rombel.jurusan.jurusan %> <%= siswa.rombel.rombel %></td>
+            <td><%= siswa.rayon.rayon.capitalize %></td>
+            <td>
+              <%= link_to 'Show', siswa, class:"btn btn-info" %>
+              <%= link_to 'Edit', edit_siswa_path(siswa), class:"btn btn-warning" %>
+              <%= link_to 'Destroy', siswa, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger "%>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#example').DataTable();
+  } );
+</script>

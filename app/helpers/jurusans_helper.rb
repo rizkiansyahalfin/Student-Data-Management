@@ -1,0 +1,2 @@
+module JurusansHelper
+end

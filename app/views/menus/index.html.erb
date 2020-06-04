@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+<title>Menu</title>
+<div class="container">
+  <div class="card">
+      <div class="card-header">
+        <h1 align="center">Menu</h1>
+      </div>
+      <div class="card-body">
+        <div class="col-md-12">
+          <div class="container">
+            <%= link_to 'New Menu', new_menu_path, class: 'btn btn-primary' %>
+          </div>
+        </div>
+        <br>
+        <table class="table table-bordered table-striped table-hover table-condensed table-sm">
+          <caption>Table Menu</caption>
+          <thead class="table-dark">
+            <tr align="center">
+              <th>Menu Name</th>
+              <th>Menu Route</th>
+              <th>Is Active</th>
+              
+              <th colspan="3">Action</th>
+            </tr>
+          </thead>
+
+          <tbody align="center">
+            <% @menus.each do |menu| %>
+              <tr>
+                <td><%= menu.menu_name.capitalize %></td>
+                <td><%= menu.menu_route %></td>
+                <td>
+                  <% if menu.is_active == true %>
+                    <%= "Active"%>
+                  <% else %>
+                    <%= "Non Active" %>
+                  <% end%>
+                </td>
+                
+                <td align="center" width="10%"><%= link_to 'Show', menu, class: 'btn btn-info' %></td>
+                <td align="center" width="10%"><%= link_to 'Edit', edit_menu_path(menu), class: 'btn btn-warning' %></td>
+                <td align="center" width="10%"><%= link_to 'Destroy', menu, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+        <br>
+        

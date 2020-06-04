@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="card">
+  
+    <div class="card-header" align="center">
+      <h1>Show Menu<h1>
+    </div>
+
+    <div class="card-body">
+      <p>
+        <strong>Menu name:</strong>
+        <%= @menu.menu_name %>
+      </p>
+
+      <p>
+        <strong>Menu route:</strong>
+        <%= @menu.menu_route %>
+      </p>
+
+      <p>
+        <strong>Is active:</strong>
+        <% if @menu.is_active == true %>
+          <%= "Active" %>
+        <% else %>
+          <%= "Non Active" %>
+        <% end %>
+      </p>
+      
+    </div>
+
+    <div class="footer" align="center">
+      <%= link_to 'Edit', edit_menu_path(@menu), class: 'btn btn-outline-warning' %>
+      <%= link_to 'Back', menus_path, class: 'btn btn-outline-secondary' %>
+    </div>
+
+  </div>
+</div>
+    

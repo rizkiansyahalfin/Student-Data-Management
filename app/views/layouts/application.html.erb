@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% if user_signed_in? %>
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+
+      <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+      <title>Student Data Management</title>
+
+      <!-- Bootstrap CSS CDN -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+      <!-- Our Custom CSS -->
+      <link rel="stylesheet" href="style3.css">
+
+      <!-- Font Awesome JS -->
+      <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+      <a class="navbar-brand" href="#">Student Data Management</a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <% if user_signed_in? %>
+            <li class="nav-item">
+              <a class="nav-link">
+              Logged in as <strong><%= current_user.email %></strong>
+              </a>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+    <% end %>
+  </head>
+  <body>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <% if user_signed_in? %>
+      <div class="row" id="body-row">
+          <div id="sidebar-container" class="sidebar-expanded d-none d-md-block bg-light">
+              <ul class="list-group">
+                <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                    <small class="btn btn-light">MAIN MENU</small>
+                </li>
+                <% if user_signed_in? %>
+                  <% current_user.menu_permissions.where(read:true).each do |aprove| %>
+                    <% if aprove.menu.is_active == true %>
+                      <%= link_to aprove.menu.menu_name.titleize, aprove.menu.menu_route, class: 'list-group-item light' %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <% if user_signed_in? %>
+                  <%= link_to 'Edit Profile', edit_user_registration_path, :class => 'navbar-link btn btn-warning' %>
+                  <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'navbar-link btn btn-danger'  %>
+                <% end %>
+              </ul>
+          </div> <!-- End Sidebar -->
+        <% end %>
+
+        <!-- MAIN -->
+        <div class="col">
+
+          <% unless user_signed_in? %>
+            <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link btn btn-primary' %> |
+            <%= link_to "Login", new_user_session_path, :class => 'navbar-link btn btn-primary' %>
+          <% end %>
+
+          <!-- Notifikasi -->      
+          <% if notice %>
+          <br>
+            <p class="alert alert-success"><%= notice %></p>
+          <% end %>
+          <% if alert %>
+            <p class="alert alert-danger"><%= alert %></p>
+          <% end %>
+          <%= yield %>
+        </div>
+    </div>
+  </body>
+</html>

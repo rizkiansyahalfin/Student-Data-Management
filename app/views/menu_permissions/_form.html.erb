@@ -1,0 +1,47 @@
+<%= form_with(model: menu_permission, local: true) do |form| %>
+  <% if menu_permission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(menu_permission.errors.count, "error") %> prohibited this menu_permission from being saved:</h2>
+
+      <ul>
+        <% menu_permission.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :menu_id %>
+    <%= form.select(:menu_id, Menu.all.map {|m| [m.menu_name, m.id]}, :prompt => "Pilih Menu ID") %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.select(:user_id, User.all.map {|u| [u.email, u.id]}, :prompt => "Pilih User ID") %>
+  </div>
+
+  <div class="field">
+    <%= form.label :create %>
+    <%= form.check_box :create %>
+  </div>
+
+  <div class="field">
+    <%= form.label :read %>
+    <%= form.check_box :read %>
+  </div>
+
+  <div class="field">
+    <%= form.label :uptodate %>
+    <%= form.check_box :uptodate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :remove %>
+    <%= form.check_box :remove %>
+  </div>
+
+  <div class="actions" align="center">
+    <%= form.submit %>
+  </div>
+<% end %>

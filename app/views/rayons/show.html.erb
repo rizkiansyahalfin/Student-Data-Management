@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="card">
+
+    <div class="card-header" align="center">
+      <h1>Show Rayon</h1>
+    </div>
+
+    <div class="card-body">
+      <p>
+        <strong>Rayon:</strong>
+        <%= @rayon.rayon %>
+      </p>
+    </div>
+    
+    <div class="card-footer" align="center">
+      <%= link_to 'Edit', edit_rayon_path(@rayon), class: 'btn btn-outline-warning' %>
+      <%= link_to 'Back', rayons_path, class: 'btn btn-outline-secondary' %>
+    </div>
+
+  </div>
+</div>

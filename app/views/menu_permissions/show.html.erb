@@ -1,0 +1,61 @@
+<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="card">
+
+    <div class="card-header" align="center">
+      <h1>Show Menu Permission</h1>
+    </div>
+
+    <div class="card-body">
+      <p>
+        <strong>Menu:</strong>
+        <%= @menu_permission.menu.menu_name %>
+      </p>
+
+      <p>
+        <strong>User:</strong>
+        <%= @menu_permission.user.email %>
+      </p>
+
+      <p>
+        <strong>Create:</strong>
+        <% if @menu_permission.create == true %>
+          <%= "Allowed" %>
+        <% else %>
+          <%= "Not Allowed" %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>Read:</strong>
+        <% if @menu_permission.read == true %>
+          <%= "Allowed" %>
+        <% else %>
+          <%= "Not Allowed" %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>Uptodate:</strong>
+        <% if @menu_permission.uptodate == true %>
+          <%= "Allowed" %>
+        <% else %>
+          <%= "Not Allowed" %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>Remove:</strong>
+        <% if @menu_permission.remove == true %>
+          <%= "Allowed" %>
+        <% else %>
+          <%= "Not Allowed" %>
+        <% end %>
+      </p>
+
+      </div>
+
+      <div class="card-footer" align="center">
+        <%= link_to 'Edit', edit_menu_permission_path(@menu_permission), class: 'btn btn-outline-warning' %>
+        <%= link_to 'Back', menu_permissions_path, class: 'btn btn-outline-secondary' %>
+      </div>
