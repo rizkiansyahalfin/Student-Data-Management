@@ -1,0 +1,44 @@
+{
+  "application.js": "/packs/js/application-c2e76fef8cda33d422c4.js",
+  "application.js.map": "/packs/js/application-c2e76fef8cda33d422c4.js.map",
+  "bootstrap.js": "/packs/js/bootstrap-66164d85002ede1ddb17.js",
+  "bootstrap.js.map": "/packs/js/bootstrap-66164d85002ede1ddb17.js.map",
+  "dataTables.js": "/packs/js/dataTables-13a9c512e987d8e1c158.js",
+  "dataTables.js.map": "/packs/js/dataTables-13a9c512e987d8e1c158.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-c2e76fef8cda33d422c4.js"
+      ],
+      "js.map": [
+        "/packs/js/application-c2e76fef8cda33d422c4.js.map"
+      ]
+    },
+    "bootstrap": {
+      "js": [
+        "/packs/js/bootstrap-66164d85002ede1ddb17.js"
+      ],
+      "js.map": [
+        "/packs/js/bootstrap-66164d85002ede1ddb17.js.map"
+      ]
+    },
+    "dataTables": {
+      "js": [
+        "/packs/js/dataTables-13a9c512e987d8e1c158.js"
+      ],
+      "js.map": [
+        "/packs/js/dataTables-13a9c512e987d8e1c158.js.map"
+      ]
+    },
+    "jquery": {
+      "js": [
+        "/packs/js/jquery-c34b5f397f42f7504420.js"
+      ],
+      "js.map": [
+        "/packs/js/jquery-c34b5f397f42f7504420.js.map"
+      ]
+    }
+  },
+  "jquery.js": "/packs/js/jquery-c34b5f397f42f7504420.js",
+  "jquery.js.map": "/packs/js/jquery-c34b5f397f42f7504420.js.map"
+}

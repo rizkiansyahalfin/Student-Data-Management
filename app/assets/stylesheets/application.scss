@@ -1,0 +1,40 @@
+ /*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *= require bootstrap-grid.css
+ *= require bootstrap-grid.min.css
+ *= require bootstrap-reboot.css
+ *= require bootstrap-reboot.min.css
+ *= require bootstrap.css
+ *= require bootstrap.min.css
+
+ *= require dataTables.bootstrap.css
+ *= require dataTables.bootstrap.min.css
+ *= require dataTables.bootstrap4.css
+ *= require dataTables.bootstrap4.min.css
+ *= require dataTables.foundation.css
+ *= require dataTables.foundation.min.css
+ *= require dataTables.jqueryui.css
+ *= require dataTables.jqueryui.min.css
+ *= require dataTables.semanticui.css
+ *= require dataTables.semanticui.min.css
+ *= require jquery.dataTables.min.css
+ *= require jquery.dataTables.css
+
+ *= require responsive.bootstrap.min.css
+ *= require datatables/dataTables.bootstrap
+ *= require jquery.dataTables.min.css
+ *= require jquery.dataTables.css
+ *= require_self
+ */
+ 
+//  datatables webpack
+ @import "bootstrap/dist/css/bootstrap";

@@ -1,0 +1,22 @@
+<%= form_with(model: jurusan, local: true) do |form| %>
+  <% if jurusan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(jurusan.errors.count, "error") %> prohibited this jurusan from being saved:</h2>
+      
+      <ul>
+        <% jurusan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :jurusan %>
+    <%= form.text_field :jurusan %>
+  </div>
+
+  <div class="actions" align="center">
+    <%= form.submit %>
+  </div>
+<% end %>

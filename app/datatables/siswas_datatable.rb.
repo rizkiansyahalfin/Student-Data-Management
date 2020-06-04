@@ -1,0 +1,53 @@
+class SiswasDatatable < ApplicationDatatable
+	delegate :edit_siswa_path, to: :@view
+  
+	private
+  
+	def data
+	  siswas.map do |siswa|
+		[].tap do |column|
+		  column << siswa.nama
+		  column << siswa.jk
+		  column << siswa.rombel_id
+		  column << siswa.rayon_id
+  
+		  links = []
+		  links << link_to('Show', siswa)
+		  links << link_to('Edit', edit_siswa_path(user))
+		  links << link_to('Destroy', siswa, method: :delete, data: { confirm: 'Are you sure?' })
+		  column << links.join(' | ')
+		end
+	  end
+	end
+  
+	def count
+	  Siswa.count
+	end
+  
+	def total_entries
+	  siswas.total_count
+	  # will_paginate
+	  # users.total_entries
+	end
+  
+	def siswas
+	  @siswas ||= fetch_siswas
+	end
+  
+	def fetch_siswas
+	  search_string = []
+	  columns.each do |term|
+		search_string << "#{term} like :search"
+	  end
+  
+	  # will_paginate
+	  # users = User.page(page).per_page(per_page)
+	  siswas = Siswa.order("#{sort_column} #{sort_direction}")
+	  siswas = siswas.page(page).per(per_page)
+	  siswas = siswas.where(search_string.join(' or '), search: "%#{params[:search][:value]}%")
+	end
+  
+	def columns
+	  %w(nama jk rombel_id rayon_id)
+	end
+  end

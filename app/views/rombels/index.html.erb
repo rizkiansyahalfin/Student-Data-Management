@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+<title>Data Rombel</title>
+<div class="container">
+  <div class="card">
+    <div class="row-3">
+      <div class="card-header" align="center">
+        <h1 align="center">Rombel</h1>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="col-md-12">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <%= link_to 'New Rombel', new_rombel_path, class: 'btn btn-primary' %>
+            </div>
+          <div class="col">
+          </div>
+        </div>  
+      </div>
+    </div>
+    <br>
+      <table class="table table-bordered table-striped table-hover table-condensed table-sm">
+      <caption>Table Rombel</caption>
+        <thead align="center" class="table-dark">
+          <tr>
+            <th>Jurusan</th>
+            <th>Rombel</th>
+            <th colspan="3">Aksi</th>
+          </tr>
+        </thead>
+        <tbody align="center">
+        <% @rombels.each do |rombel| %>
+          <tr>
+            <td><%= rombel.jurusan.jurusan.upcase %></td>
+            <td><%= rombel.rombel.upcase %></td>
+            <td align="center" width="10%"><%= link_to 'Show', rombel, class: 'btn btn-info' %></td>
+            <td align="center" width="10%"><%= link_to 'Edit', edit_rombel_path(rombel), class:'btn btn-warning' %></td>
+            <td align="center" width="10%"><%= link_to 'Destroy', rombel, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<br>
+

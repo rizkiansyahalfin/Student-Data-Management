@@ -1,0 +1,27 @@
+<%= form_with(model: rombel, local: true) do |form| %>
+  <% if rombel.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(rombel.errors.count, "error") %> prohibited this rombel from being saved:</h2>
+
+      <ul>
+        <% rombel.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :jurusan_id %>
+    <%= form.select(:jurusan_id, Jurusan.all.map {|j| [j.jurusan, j.id]}, :prompt => "Pilih Jurusan") %>
+  </div>
+
+  <div class="field">
+    <%= form.label :rombel %>
+    <%= form.text_field :rombel %>
+  </div>
+
+  <div class="actions" align="center">
+    <%= form.submit %>
+  </div>
+<% end %>

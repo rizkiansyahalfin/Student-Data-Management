@@ -1,0 +1,28 @@
+
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Nama</Data></Cell>
+        <Cell><Data ss:Type="String">Jenis Kelamin</Data></Cell>
+        <Cell><Data ss:Type="String">Jurusan</Data></Cell>
+        <Cell><Data ss:Type="String">Rombel</Data></Cell>
+        <Cell><Data ss:Type="String">Rayon</Data></Cell>
+      </Row>
+    <% @siswas.each do |siswa| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= siswa.nama %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= siswa.jk %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= siswa.rombel.jurusan.jurusan %></Data></Cell
+        <Cell><Data ss:Type="String"><%= siswa.rombel.rombel %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= siswa.rayon.rayon %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

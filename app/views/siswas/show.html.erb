@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="card">
+
+    <div class="card-header" align="center">
+      <h1 align="center">Show Siswa</h1>
+    </div>
+    <div class="card-body">
+        <p>
+          <strong>Nama:</strong>
+          <%= @siswa.nama %>
+        </p>
+        <p>
+          <strong>Jenis Kelamin:</strong>
+          <%= @siswa.jk %>
+        </p>
+        <p>
+          <strong>Rombel:</strong>
+          <%= @siswa.rombel.jurusan.jurusan %> <%= @siswa.rombel.rombel %>
+        </p>
+        <p>
+          <strong>Rayon:</strong>
+          <%= @siswa.rayon.rayon %>
+        </p>
+    </div>
+
+    <div class="card-footer" align="center">
+      <%= link_to 'Edit', edit_siswa_path(@siswa), class: 'btn btn-outline-warning' %>
+      <%= link_to 'Back', siswas_path, class: 'btn btn-outline-secondary' %>
+    </div>
+    
+  </div>
+</div>

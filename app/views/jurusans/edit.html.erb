@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="card">
+
+    <div class="card-header">
+      <h1 align="center">Editing Jurusan</h1>
+    </div>
+
+    <div class="card-body">
+      <%= render 'form', jurusan: @jurusan %>
+    </div>
+
+    <div class="card-footer" align="center">
+      <%= link_to 'Show', @jurusan, class: 'btn btn-outline-info' %>
+      <%= link_to 'Back', jurusans_path, class: 'btn btn-outline-secondary' %>
+    </div>
+    
+  </div>
+</div>

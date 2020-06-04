@@ -1,0 +1,39 @@
+<%= form_with(model: siswa, local: true) do |form| %>
+  <% if siswa.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(siswa.errors.count, "error") %> prohibited this siswa from being saved:</h2>
+
+      <ul>
+        <% siswa.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= form.label :nama %>
+    <%= form.text_field :nama, size: '22' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :Jenis_Kelamin %>
+    <%= form.radio_button :jk, 'Laki-laki' %>
+    <%= form.label :jk, "Laki-Laki", :value => "Laki-laki"  %>
+    <%= form.radio_button :jk, 'Perempuan' %>
+    <%= form.label :jk, "Perempuan", :value => "Perempuan" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :rombel_id %>
+    <%= form.select(:rombel_id, Rombel.all.map {|r| [r.rombel, r.id]}, :prompt => "Pilih Rombel") %>
+  </div>
+  
+  <div class="form-group">
+    <%= form.label :rayon_id %>
+    <%= form.select(:rayon_id, Rayon.all.map {|r| [r.rayon, r.id]}, :prompt => "Pilih Rayon") %>
+  </div>
+
+  <div class="actions" align="center">
+    <%= form.submit %>
+  </div>
+<% end %>
