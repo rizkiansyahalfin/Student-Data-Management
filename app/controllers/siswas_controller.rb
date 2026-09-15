@@ -7,8 +7,8 @@ class SiswasController < ApplicationController
     @siswas = Siswa.includes(:rayon, rombel: :jurusan).order(:nama)
     respond_to do |format|
       format.html
-      format.csv { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id']) }
-      format.xls { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id'], col_sep: "\t") }
+      format.csv { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id']), filename: "siswas-#{Date.today}.csv", type: "text/csv" }
+      format.xls { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id'], col_sep: "\t"), filename: "siswas-#{Date.today}.xls", type: "application/vnd.ms-excel" }
     end
   end
 

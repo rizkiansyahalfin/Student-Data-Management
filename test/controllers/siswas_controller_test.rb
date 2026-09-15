@@ -10,6 +10,17 @@ class SiswasControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get index as csv" do
+    get siswas_url(format: :csv)
+    assert_response :success
+    assert_equal 'text/csv', response.media_type
+  end
+
+  test "should get index as xls" do
+    get siswas_url(format: :xls)
+    assert_response :success
+  end
+
   test "should get new" do
     get new_siswa_url
     assert_response :success

@@ -5,8 +5,8 @@ class Siswa < ApplicationRecord
   validates :nama, :jk, presence: true
 
   # Generate a CSV File of Siswa Records
-  def self.to_csv(fields = column_names, options = {})
-    CSV.generate(options) do |csv|
+  def self.to_csv(fields = column_names, **options)
+    CSV.generate(**options) do |csv|
       csv << fields
       all.each do |siswa|
         csv << siswa.attributes.values_at(*fields)
