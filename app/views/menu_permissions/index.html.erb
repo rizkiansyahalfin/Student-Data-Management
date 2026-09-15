@@ -31,31 +31,31 @@
                   <td><%= menu_permission.menu.menu_name %></td>
                   <td><%= menu_permission.user.email %></td>
                   <td>
-                    <% if menu_permission.create == true %>
-                      <%= menu_permission.create = "Allowed" %>
+                    <% if menu_permission.create %>
+                      <span class="badge badge-success">Allowed</span>
                     <% else %>
-                      <%= menu_permission.create = "Not Allowed"%>
+                      <span class="badge badge-secondary">Not Allowed</span>
                     <% end %>
                   </td>
                   <td>
-                    <% if menu_permission.read == true %>
-                      <%= menu_permission.read = "Allowed" %>
+                    <% if menu_permission.read %>
+                      <span class="badge badge-success">Allowed</span>
                     <% else %>
-                      <%= menu_permission.read = "Not Allowed"%>
+                      <span class="badge badge-secondary">Not Allowed</span>
                     <% end %>
                   </td>
                   <td>
-                    <% if menu_permission.uptodate == true %>
-                      <%= menu_permission.uptodate = "Allowed" %>
+                    <% if menu_permission.uptodate %>
+                      <span class="badge badge-success">Allowed</span>
                     <% else %>
-                      <%= menu_permission.uptodate = "Not Allowed"%>
+                      <span class="badge badge-secondary">Not Allowed</span>
                     <% end %>
                   </td>
                   <td>
-                    <% if menu_permission.remove == true %>
-                      <%= menu_permission.remove = "Allowed" %>
+                    <% if menu_permission.remove %>
+                      <span class="badge badge-success">Allowed</span>
                     <% else %>
-                      <%= menu_permission.remove = "Not Allowed"%>
+                      <span class="badge badge-secondary">Not Allowed</span>
                     <% end %>
                   </td>
                   <td align="center" width="10%"><%= link_to 'Show', menu_permission, class: 'btn btn-info' %></td>

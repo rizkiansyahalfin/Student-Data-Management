@@ -4,18 +4,25 @@ class SiswasController < ApplicationController
   # GET /siswas
   # GET /siswas.json
   def index
-    @siswas = Siswa.order(:nama)
+    @siswas = Siswa.includes(:rayon, rombel: :jurusan).order(:nama)
     respond_to do |format|
       format.html
-      format.csv { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id']).titleize }
-      format.xls { send_data @siswas.to_csv(col_sep: "\t") }
+      format.csv { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id']) }
+      format.xls { send_data @siswas.to_csv(['nama', 'jk', 'rombel_id', 'rayon_id'], col_sep: "\t") }
     end
   end
 
   def import
-    Siswa.import(params[:file])
-    redirect_to root_url, notice: "Siswa Uploaded successfully"
+    if params[:file].present?
+      Siswa.import(params[:file])
+      redirect_to siswas_url, notice: "Siswa Uploaded successfully"
+    else
+      redirect_to siswas_url, alert: "Please select a file to import."
+    end
+  rescue StandardError => e
+    redirect_to siswas_url, alert: "Failed to import file: #{e.message}"
   end
+
 
   # GET /siswas/1
   # GET /siswas/1.json

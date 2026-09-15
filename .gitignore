@@ -1,0 +1,53 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Ignore bundler config and vendor gems
+/.bundle/
+/vendor/bundle
+
+# Ignore node_modules & yarn/npm logs
+/node_modules/
+yarn-debug.log*
+yarn-error.log*
+npm-debug.log*
+
+# Ignore master keys and secret credentials
+/config/master.key
+/config/credentials/*.key
+.env
+.env.*
+!.env.example
+
+# Ignore log files
+/log/
+!/log/.keep
+
+# Ignore temp files and asset caches
+/tmp/
+!/tmp/.keep
+
+# Ignore compiled assets & webpack build outputs
+/public/assets
+/public/packs
+/public/packs-test
+
+# Ignore Active Storage files
+/storage/*
+!/storage/.keep
+
+# Ignore SQLite / local temporary databases
+/db/*.sqlite3
+/db/*.sqlite3-*
+
+# Ignore Coverage & Test artifacts
+/coverage/
+
+# Ignore OS & IDE metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+.byebug_history
+

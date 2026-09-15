@@ -4,7 +4,7 @@ class RombelsController < ApplicationController
   # GET /rombels
   # GET /rombels.json
   def index
-    @rombels = Rombel.all
+    @rombels = Rombel.includes(:jurusan).all
   end
 
   # GET /rombels/1

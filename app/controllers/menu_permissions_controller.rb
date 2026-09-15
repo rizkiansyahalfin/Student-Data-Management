@@ -4,7 +4,7 @@ class MenuPermissionsController < ApplicationController
   # GET /menu_permissions
   # GET /menu_permissions.json
   def index
-    @menu_permissions = MenuPermission.all
+    @menu_permissions = MenuPermission.includes(:menu, :user).all
   end
 
   # GET /menu_permissions/1

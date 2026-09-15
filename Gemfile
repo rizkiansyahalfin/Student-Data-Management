@@ -1,7 +1,23 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.0'
+ruby '>= 2.7.0'
+
+gem 'net-smtp'
+gem 'net-pop'
+gem 'net-imap'
+gem 'net-ftp'
+gem 'logger'
+gem 'prime'
+gem 'matrix'
+gem 'drb'
+gem 'mutex_m'
+gem 'base64'
+gem 'bigdecimal'
+gem 'nokogiri', '>= 1.16'
+gem 'nio4r', '>= 2.7'
+gem 'msgpack', '>= 1.7'
+gem 'bootsnap', '>= 1.18', require: false
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.1'
@@ -26,7 +42,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+# gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -36,10 +52,10 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen', '>= 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen'
 end
 
 group :test do
@@ -63,14 +79,12 @@ gem 'sprockets-rails'
 gem 'ransack'
 
 # Datatable with kaminari
-gem 'rails-assets-jquery', source: 'https://rails-assets.org'
-gem 'rails-assets-datatables', source: 'https://rails-assets.org'
+# gem 'rails-assets-jquery', source: 'https://rails-assets.org'
+# gem 'rails-assets-datatables', source: 'https://rails-assets.org'
 gem 'kaminari'
 
-# Password disembunyikan
-gem 'bcrypt-ruby', require: 'bcrypt'
-
 # Login with devise
+gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
 
 # Import dan Export Exel

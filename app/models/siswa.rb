@@ -1,11 +1,11 @@
 class Siswa < ApplicationRecord
   belongs_to :rombel
   belongs_to :rayon
-  # validates :nama, :jk, presence: true
-  validates_presence_of :nama, :jk
 
-  # Generate a CSV File of All Movie Records
-  def self.to_csv(fields = column_names, options={})
+  validates :nama, :jk, presence: true
+
+  # Generate a CSV File of Siswa Records
+  def self.to_csv(fields = column_names, options = {})
     CSV.generate(options) do |csv|
       csv << fields
       all.each do |siswa|
@@ -14,63 +14,28 @@ class Siswa < ApplicationRecord
     end
   end
 
-  # Import CSV, Find or Create Movie by its title.
-  # Update the record.
-  # def self.import(file)
-  #   CSV.foreach(file.path, headers: true) do |row|
-  #     movies_hash = row.to_hash
-  #     movie = find_or_create_by!(nama: siswas_hash[‘nama’])
-  #     movie.update_attributes(movies_hash)
-  #   end
-  # end
-
-
-# Rails Casts
-# def self.to_csv(options = {})
-#   CSV.generate(options) do |csv|
-#     csv << column_names
-#     all.each do |siswa|
-#       csv << siswa.attributes.values_at(*column_names)
-#     end
-#   end
-# end
-
+  # Import CSV / Excel file into Siswa records safely
   def self.import(file)
-    CSV.foreach(file.path, headers: true) do |row|
-      Siswa.create! row.to_hash
-    end
-  end
+    return false unless file.present?
 
-  def self.import(file)
-    CSV.foreach(file.path, headers: true) do |row|
-      siswa = find_by_id(row["id"]) || new
-      siswa.attributes = row.to_hash.slice(*accessible_attributes)
-      siswa.save!
-    end
-  end
-
-  def self.import(file)
     spreadsheet = open_spreadsheet(file)
-    header = spreadsheet.row(1)
+    header = spreadsheet.row(1).map(&:to_s).map(&:strip).map(&:downcase)
+
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      siswa = find_by_id(row["id"]) || new
-      siswa.attributes = row.to_hash.slice(*accessible_attributes)
+      siswa = find_by(id: row["id"]) || new
+      permitted_attrs = row.slice("nama", "jk", "rombel_id", "rayon_id")
+      siswa.attributes = permitted_attrs
       siswa.save!
     end
   end
 
   def self.open_spreadsheet(file)
-    case File.extname(file.original_filename)
-    when '.csv' then Csv.new(file.path, nil, :ignore)
-    when '.xls' then Excel.new(file.path, nil, :ignore)
-    when '.xlsx' then Excelx.new(file.path, nil, :ignore)
-    else raise "Unknown file type: #{file.original_filename}"
+    case File.extname(file.original_filename).downcase
+    when '.csv', '.xls', '.xlsx'
+      Roo::Spreadsheet.open(file.path)
+    else
+      raise "Unknown file type: #{file.original_filename}"
     end
   end
-
-
-
-
-
 end
