@@ -1,9 +1,8 @@
 <%= form_with(model: jurusan, local: true) do |form| %>
   <% if jurusan.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(jurusan.errors.count, "error") %> prohibited this jurusan from being saved:</h2>
-      
-      <ul>
+    <div class="alert alert-danger" id="error_explanation">
+      <h5 class="alert-heading"><%= pluralize(jurusan.errors.count, "error") %> prohibited this jurusan from being saved:</h5>
+      <ul class="mb-0">
         <% jurusan.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,12 +10,14 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :jurusan %>
-    <%= form.text_field :jurusan %>
+  <div class="form-group">
+    <%= form.label :jurusan, "Nama Jurusan" %>
+    <%= form.text_field :jurusan, class: "form-control", placeholder: "Contoh: Rekayasa Perangkat Lunak" %>
   </div>
 
-  <div class="actions" align="center">
-    <%= form.submit %>
+  <div class="form-group text-right">
+    <%= link_to 'Kembali', jurusans_path, class: 'btn btn-secondary mr-2' %>
+    <%= form.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>
+

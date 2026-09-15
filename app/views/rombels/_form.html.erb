@@ -1,9 +1,8 @@
 <%= form_with(model: rombel, local: true) do |form| %>
   <% if rombel.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(rombel.errors.count, "error") %> prohibited this rombel from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" id="error_explanation">
+      <h5 class="alert-heading"><%= pluralize(rombel.errors.count, "error") %> prohibited this rombel from being saved:</h5>
+      <ul class="mb-0">
         <% rombel.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,17 +10,19 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :jurusan_id %>
-    <%= form.select(:jurusan_id, Jurusan.all.map {|j| [j.jurusan, j.id]}, :prompt => "Pilih Jurusan") %>
+  <div class="form-group">
+    <%= form.label :jurusan_id, "Jurusan" %>
+    <%= form.select(:jurusan_id, Jurusan.all.map {|j| [j.jurusan, j.id]}, { prompt: "-- Pilih Jurusan --" }, class: "form-control") %>
   </div>
 
-  <div class="field">
-    <%= form.label :rombel %>
-    <%= form.text_field :rombel %>
+  <div class="form-group">
+    <%= form.label :rombel, "Nama Rombel" %>
+    <%= form.text_field :rombel, class: "form-control", placeholder: "Contoh: RPL 1" %>
   </div>
 
-  <div class="actions" align="center">
-    <%= form.submit %>
+  <div class="form-group text-right">
+    <%= link_to 'Kembali', rombels_path, class: 'btn btn-secondary mr-2' %>
+    <%= form.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>
+

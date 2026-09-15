@@ -1,39 +1,47 @@
 <%= form_with(model: siswa, local: true) do |form| %>
   <% if siswa.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(siswa.errors.count, "error") %> prohibited this siswa from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" id="error_explanation">
+      <h5 class="alert-heading"><%= pluralize(siswa.errors.count, "error") %> prohibited this siswa from being saved:</h5>
+      <ul class="mb-0">
         <% siswa.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
+
   <div class="form-group">
-    <%= form.label :nama %>
-    <%= form.text_field :nama, size: '22' %>
+    <%= form.label :nama, "Nama Lengkap" %>
+    <%= form.text_field :nama, class: "form-control", placeholder: "Masukkan nama siswa" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :Jenis_Kelamin %>
-    <%= form.radio_button :jk, 'Laki-laki' %>
-    <%= form.label :jk, "Laki-Laki", :value => "Laki-laki"  %>
-    <%= form.radio_button :jk, 'Perempuan' %>
-    <%= form.label :jk, "Perempuan", :value => "Perempuan" %>
+    <label>Jenis Kelamin</label>
+    <div>
+      <div class="form-check form-check-inline">
+        <%= form.radio_button :jk, 'Laki-laki', class: 'form-check-input', id: 'jk_laki' %>
+        <%= form.label :jk, "Laki-laki", class: 'form-check-label', for: 'jk_laki' %>
+      </div>
+      <div class="form-check form-check-inline">
+        <%= form.radio_button :jk, 'Perempuan', class: 'form-check-input', id: 'jk_perempuan' %>
+        <%= form.label :jk, "Perempuan", class: 'form-check-label', for: 'jk_perempuan' %>
+      </div>
+    </div>
   </div>
 
   <div class="form-group">
-    <%= form.label :rombel_id %>
-    <%= form.select(:rombel_id, Rombel.all.map {|r| [r.rombel, r.id]}, :prompt => "Pilih Rombel") %>
-  </div>
-  
-  <div class="form-group">
-    <%= form.label :rayon_id %>
-    <%= form.select(:rayon_id, Rayon.all.map {|r| [r.rayon, r.id]}, :prompt => "Pilih Rayon") %>
+    <%= form.label :rombel_id, "Rombel" %>
+    <%= form.select(:rombel_id, Rombel.includes(:jurusan).map {|r| ["#{r.jurusan&.jurusan} - #{r.rombel}", r.id]}, { prompt: "-- Pilih Rombel --" }, class: "form-control") %>
   </div>
 
-  <div class="actions" align="center">
-    <%= form.submit %>
+  <div class="form-group">
+    <%= form.label :rayon_id, "Rayon" %>
+    <%= form.select(:rayon_id, Rayon.all.map {|r| [r.rayon, r.id]}, { prompt: "-- Pilih Rayon --" }, class: "form-control") %>
+  </div>
+
+  <div class="form-group text-right">
+    <%= link_to 'Kembali', siswas_path, class: 'btn btn-secondary mr-2' %>
+    <%= form.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>
+

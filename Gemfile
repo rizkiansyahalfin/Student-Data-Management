@@ -14,6 +14,7 @@ gem 'drb'
 gem 'mutex_m'
 gem 'base64'
 gem 'bigdecimal'
+gem 'rexml'
 gem 'nokogiri', '>= 1.16'
 gem 'nio4r', '>= 2.7'
 gem 'msgpack', '>= 1.7'
@@ -72,7 +73,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Bootstrap
 gem 'bootstrap'
 gem 'jquery-rails'
-gem 'bootstrap-sass'
 gem 'sprockets-rails'
 
 # Sorting with ransack

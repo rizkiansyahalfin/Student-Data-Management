@@ -2,13 +2,13 @@ require 'test_helper'
 
 class ProductImportsControllerTest < ActionDispatch::IntegrationTest
   test "should get new" do
-    get product_imports_new_url
+    get new_product_import_url
     assert_response :success
   end
 
   test "should get create" do
-    get product_imports_create_url
-    assert_response :success
+    post product_imports_url
+    assert_response :redirect
   end
-
 end
+

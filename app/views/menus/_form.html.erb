@@ -1,9 +1,8 @@
 <%= form_with(model: menu, local: true) do |form| %>
   <% if menu.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(menu.errors.count, "error") %> prohibited this menu from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" id="error_explanation">
+      <h5 class="alert-heading"><%= pluralize(menu.errors.count, "error") %> prohibited this menu from being saved:</h5>
+      <ul class="mb-0">
         <% menu.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,22 +10,24 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :menu_name %>
-    <%= form.text_field :menu_name %>
+  <div class="form-group">
+    <%= form.label :menu_name, "Nama Menu" %>
+    <%= form.text_field :menu_name, class: "form-control", placeholder: "Contoh: Data Siswa" %>
   </div>
 
-  <div class="field">
-    <%= form.label :menu_route %>
-    <%= form.text_field :menu_route %>
+  <div class="form-group">
+    <%= form.label :menu_route, "Route / Path" %>
+    <%= form.text_field :menu_route, class: "form-control", placeholder: "Contoh: /siswas" %>
   </div>
 
-  <div class="field">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active %>
+  <div class="form-group form-check">
+    <%= form.check_box :is_active, class: "form-check-input", id: "is_active_check" %>
+    <%= form.label :is_active, "Aktifkan Menu", class: "form-check-label", for: "is_active_check" %>
   </div>
 
-  <div class="actions" align="center">
-    <%= form.submit %>
+  <div class="form-group text-right">
+    <%= link_to 'Kembali', menus_path, class: 'btn btn-secondary mr-2' %>
+    <%= form.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>
+

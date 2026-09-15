@@ -1,9 +1,8 @@
 <%= form_with(model: rayon, local: true) do |form| %>
   <% if rayon.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(rayon.errors.count, "error") %> prohibited this rayon from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger" id="error_explanation">
+      <h5 class="alert-heading"><%= pluralize(rayon.errors.count, "error") %> prohibited this rayon from being saved:</h5>
+      <ul class="mb-0">
         <% rayon.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,12 +10,14 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :rayon %>
-    <%= form.text_field :rayon %>
+  <div class="form-group">
+    <%= form.label :rayon, "Nama Rayon" %>
+    <%= form.text_field :rayon, class: "form-control", placeholder: "Contoh: Ciawi 1" %>
   </div>
 
-  <div class="actions" align="center">
-    <%= form.submit %>
+  <div class="form-group text-right">
+    <%= link_to 'Kembali', rayons_path, class: 'btn btn-secondary mr-2' %>
+    <%= form.submit "Simpan", class: "btn btn-primary" %>
   </div>
 <% end %>
+
