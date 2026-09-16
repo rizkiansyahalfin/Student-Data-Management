@@ -1,32 +1,110 @@
-<div class="container">
-  <div class="card">
+<div class="mb-4">
+  <%= link_to '<i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Daftar Siswa'.html_safe, siswas_path, class: 'btn btn-outline-secondary btn-sm rounded-3 mb-2' %>
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 class="fw-bold mb-0"><i class="fa-solid fa-id-card text-primary me-2"></i>Profil Detail Siswa</h3>
+    <div>
+      <% if current_user_can?('siswas', 'uptodate') %>
+        <%= link_to '<i class="fa-solid fa-pen-to-square me-1"></i> Edit Data'.html_safe, edit_siswa_path(@siswa), class: 'btn btn-warning rounded-3 shadow-sm' %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-    <div class="card-header" align="center">
-      <h1 align="center">Show Siswa</h1>
-    </div>
-    <div class="card-body">
-        <p>
-          <strong>Nama:</strong>
-          <%= @siswa.nama %>
-        </p>
-        <p>
-          <strong>Jenis Kelamin:</strong>
-          <%= @siswa.jk %>
-        </p>
-        <p>
-          <strong>Rombel:</strong>
-          <%= @siswa.rombel.jurusan.jurusan %> <%= @siswa.rombel.rombel %>
-        </p>
-        <p>
-          <strong>Rayon:</strong>
-          <%= @siswa.rayon.rayon %>
-        </p>
+<div class="row g-4">
+  <!-- PROFILE CARD -->
+  <div class="col-lg-5">
+    <div class="card-glass p-4 text-center mb-4">
+      <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+        <i class="fa-solid fa-user-graduate fs-1"></i>
+      </div>
+      <h4 class="fw-bold mb-1"><%= @siswa.nama.titleize %></h4>
+      <p class="text-muted mb-2"><%= @siswa.rombel&.jurusan&.jurusan %> - <%= @siswa.rombel&.rombel %></p>
+      <div>
+        <span class="badge badge-soft-success rounded-pill px-3 py-2 fs-6"><%= @siswa.status || 'Aktif' %></span>
+      </div>
     </div>
 
-    <div class="card-footer" align="center">
-      <%= link_to 'Edit', edit_siswa_path(@siswa), class: 'btn btn-outline-warning' %>
-      <%= link_to 'Back', siswas_path, class: 'btn btn-outline-secondary' %>
+    <div class="card-glass p-4">
+      <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fa-solid fa-circle-info text-primary me-2"></i>Informasi Pribadi & Kontak</h6>
+      <table class="table table-borderless table-sm mb-0">
+        <tr>
+          <td class="text-muted" style="width: 40%;">NISN / NIS</td>
+          <td class="fw-semibold">: <%= @siswa.nisn.presence || '-' %> / <%= @siswa.nis.presence || '-' %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">Jenis Kelamin</td>
+          <td class="fw-semibold">: <%= @siswa.jk %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">Tempat/Tgl Lahir</td>
+          <td class="fw-semibold">: <%= @siswa.tempat_lahir.presence || '-' %>, <%= @siswa.tanggal_lahir&.strftime('%d %B %Y') || '-' %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">Rayon Wilayah</td>
+          <td class="fw-semibold">: <%= @siswa.rayon&.rayon %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">No. Telepon</td>
+          <td class="fw-semibold">: <%= @siswa.telepon.presence || '-' %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">Alamat Siswa</td>
+          <td class="fw-semibold">: <%= @siswa.alamat.presence || '-' %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">Nama Ortu/Wali</td>
+          <td class="fw-semibold">: <%= @siswa.nama_ortu.presence || '-' %></td>
+        </tr>
+        <tr>
+          <td class="text-muted">No. Telp Ortu</td>
+          <td class="fw-semibold">: <%= @siswa.telepon_ortu.presence || '-' %></td>
+        </tr>
+      </table>
     </div>
-    
+  </div>
+
+  <!-- ATTENDANCE HISTORY -->
+  <div class="col-lg-7">
+    <div class="card-glass p-4">
+      <h6 class="fw-bold border-bottom pb-2 mb-3"><i class="fa-solid fa-calendar-days text-primary me-2"></i>Riwayat Presensi Terbaru</h6>
+      <% if @absensis.any? %>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Status Presensi</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @absensis.each do |abs| %>
+                <tr>
+                  <td><%= abs.tanggal.strftime('%d %b %Y') %></td>
+                  <td>
+                    <% case abs.status_presensi %>
+                    <% when 'Hadir' %>
+                      <span class="badge badge-soft-success px-3 py-1 rounded-pill">Hadir</span>
+                    <% when 'Sakit' %>
+                      <span class="badge badge-soft-warning px-3 py-1 rounded-pill">Sakit</span>
+                    <% when 'Izin' %>
+                      <span class="badge badge-soft-primary px-3 py-1 rounded-pill">Izin</span>
+                    <% when 'Alpa' %>
+                      <span class="badge badge-soft-danger px-3 py-1 rounded-pill">Alpa</span>
+                    <% end %>
+                  </td>
+                  <td class="text-muted small"><%= abs.keterangan.presence || '-' %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="text-center py-4 text-muted">
+          <i class="fa-solid fa-clipboard-list fs-2 opacity-50 mb-2"></i>
+          <p class="mb-0">Belum ada riwayat presensi tercatat.</p>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

@@ -1,63 +1,86 @@
-<p id="notice"><%= notice %></p>
-<p>
-  Download:
-  <%= link_to "CSV", siswas_path(format: "csv") %> |
-  <%= link_to "Excel", siswas_path(format: "xls") %>
-</p>
-
-<h2>Import Students</h2>
-<%= form_tag import_siswas_path, multipart: true do %>
-  <%= file_field_tag :file %>
-  <%= submit_tag "Import" %>
-<% end %>
-
-<br>
-<title>Data Siswa</title>
-<div class="container">
-  <div class="card">
-      <div class="card-header">
-        <h1 align="center">Siswa</h1>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <div class="container">
-            <%= link_to 'New Siswa', new_siswa_path, class: 'btn btn-primary' %> 
-          </div>
-        </div>
-      <br>
-      <table id="example" class="table table-striped table-bordered table-hover table-condensed table-sm">
-        <caption>Table Siswa</caption>
-          <thead align="center" class="table-dark">
-            <tr>
-              <th>Nama</th>
-              <th>Jenis Kelamin</th>
-              <th>Rombel</th>
-              <th>Rayon</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody align="center" id="static-table">
-          <% @siswas.each do |siswa| %> 
-          <tr>
-            <td><%= siswa.nama.titleize %></td>
-            <td><%= siswa.jk %></td>
-            <td><%= siswa.rombel.jurusan.jurusan %> <%= siswa.rombel.rombel %></td>
-            <td><%= siswa.rayon.rayon.capitalize %></td>
-            <td>
-              <%= link_to 'Show', siswa, class:"btn btn-info" %>
-              <%= link_to 'Edit', edit_siswa_path(siswa), class:"btn btn-warning" %>
-              <%= link_to 'Destroy', siswa, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger "%>
-            </td>
-          </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
+  <div>
+    <h3 class="fw-bold mb-1"><i class="fa-solid fa-user-graduate text-primary me-2"></i>Data Siswa</h3>
+    <p class="text-muted mb-0">Kelola informasi data siswa institusi, import & export data</p>
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+    <%= link_to '<i class="fa-solid fa-file-csv me-1"></i> Export CSV'.html_safe, siswas_path(format: "csv"), class: 'btn btn-outline-success rounded-3 btn-sm' %>
+    <%= link_to '<i class="fa-solid fa-file-excel me-1"></i> Export Excel'.html_safe, siswas_path(format: "xls"), class: 'btn btn-outline-success rounded-3 btn-sm' %>
+    <% if current_user_can?('siswas', 'create') %>
+      <%= link_to '<i class="fa-solid fa-user-plus me-1"></i> Tambah Siswa'.html_safe, new_siswa_path, class: 'btn btn-primary rounded-3 btn-sm shadow-sm' %>
+    <% end %>
   </div>
 </div>
 
-<script type="text/javascript">
-  $(document).ready( function () {
-    $('#example').DataTable();
-  } );
-</script>
+<!-- IMPORT DATA CARD -->
+<% if current_user_can?('siswas', 'create') %>
+  <div class="card-glass p-4 mb-4">
+    <h6 class="fw-bold mb-3"><i class="fa-solid fa-file-import text-primary me-2"></i>Import Data Siswa (Excel / CSV)</h6>
+    <%= form_tag import_siswas_path, multipart: true, class: 'row g-3 align-items-center' do %>
+      <div class="col-md-9">
+        <input type="file" name="file" class="form-control rounded-3" accept=".csv, .xls, .xlsx" required>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-primary rounded-3 w-100"><i class="fa-solid fa-upload me-1"></i> Import File</button>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<!-- SISWA TABLE -->
+<div class="card-glass p-4">
+  <div class="table-responsive">
+    <table id="siswaTable" class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>NISN / NIS</th>
+          <th>Nama Siswa</th>
+          <th>Gender</th>
+          <th>Rombel (Kelas)</th>
+          <th>Rayon</th>
+          <th>Status</th>
+          <th class="text-end">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @siswas.each do |siswa| %>
+          <tr>
+            <td>
+              <div class="fw-semibold"><%= siswa.nisn.presence || '-' %></div>
+              <small class="text-muted"><%= siswa.nis.presence || '' %></small>
+            </td>
+            <td class="fw-bold text-primary-emphasis"><%= siswa.nama.titleize %></td>
+            <td>
+              <% if siswa.jk.to_s.downcase.start_with?('l') %>
+                <span class="badge badge-soft-primary px-2 py-1"><i class="fa-solid fa-mars me-1"></i> Laki-laki</span>
+              <% else %>
+                <span class="badge badge-soft-warning px-2 py-1"><i class="fa-solid fa-venus me-1"></i> Perempuan</span>
+              <% end %>
+            </td>
+            <td><span class="badge bg-light text-dark border"><%= siswa.rombel&.jurusan&.jurusan %> <%= siswa.rombel&.rombel %></span></td>
+            <td><%= siswa.rayon&.rayon&.capitalize %></td>
+            <td>
+              <% case siswa.status %>
+              <% when 'Aktif' %>
+                <span class="badge badge-soft-success rounded-pill px-3 py-1">Aktif</span>
+              <% when 'Lulus' %>
+                <span class="badge badge-soft-primary rounded-pill px-3 py-1">Lulus</span>
+              <% else %>
+                <span class="badge badge-soft-danger rounded-pill px-3 py-1"><%= siswa.status || 'Aktif' %></span>
+              <% end %>
+            </td>
+            <td class="text-end">
+              <%= link_to '<i class="fa-solid fa-eye"></i>'.html_safe, siswa, class: 'btn btn-sm btn-outline-info rounded-2 me-1', title: 'Lihat Detail' %>
+              <% if current_user_can?('siswas', 'uptodate') %>
+                <%= link_to '<i class="fa-solid fa-pen-to-square"></i>'.html_safe, edit_siswa_path(siswa), class: 'btn btn-sm btn-outline-warning rounded-2 me-1', title: 'Edit' %>
+              <% end %>
+              <% if current_user_can?('siswas', 'remove') %>
+                <%= link_to '<i class="fa-solid fa-trash"></i>'.html_safe, siswa, method: :delete, data: { confirm: 'Apakah Anda yakin ingin menghapus siswa ini?' }, class: 'btn btn-sm btn-outline-danger rounded-2', title: 'Hapus' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

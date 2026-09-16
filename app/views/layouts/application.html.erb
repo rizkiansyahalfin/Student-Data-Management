@@ -1,108 +1,281 @@
 <!DOCTYPE html>
-<html>
+<html lang="id" data-bs-theme="light">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <title>Student Data Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Data Management System</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap CSS CDN fallback -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        --glass-bg: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(226, 232, 240, 0.8);
+        --sidebar-width: 260px;
+      }
+
+      [data-bs-theme="dark"] {
+        --glass-bg: rgba(15, 23, 42, 0.85);
+        --glass-border: rgba(51, 65, 85, 0.8);
+      }
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: var(--bs-body-bg);
+        min-height: 100vh;
+      }
+
+      /* Custom Glass Card */
+      .card-glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card-glass:hover {
+        box-shadow: 0 20px 35px -12px rgba(99, 102, 241, 0.12);
+      }
+
+      /* Navbar & Sidebar */
+      .navbar-brand-gradient {
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+
+      .nav-link-custom {
+        border-radius: 10px;
+        padding: 10px 16px;
+        color: var(--bs-body-color);
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .nav-link-custom:hover, .nav-link-custom.active {
+        background: var(--primary-gradient);
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+      }
+
+      .theme-toggle-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        transform: rotate(15deg) scale(1.05);
+      }
+
+      /* Badge Pill Modern */
+      .badge-soft-primary { background: rgba(99, 102, 241, 0.15); color: #6366f1; font-weight: 600; }
+      .badge-soft-success { background: rgba(16, 185, 129, 0.15); color: #10b981; font-weight: 600; }
+      .badge-soft-warning { background: rgba(245, 158, 11, 0.15); color: #f59e0b; font-weight: 600; }
+      .badge-soft-danger { background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 600; }
+    </style>
   </head>
+
   <body>
     <% if user_signed_in? %>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand font-weight-bold" href="<%= root_path %>">Student Data Management</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <!-- TOP NAVBAR -->
+      <nav class="navbar navbar-expand-lg border-bottom sticky-top py-3" style="background: var(--glass-bg); backdrop-filter: blur(12px); border-color: var(--glass-border) !important;">
+        <div class="container-fluid px-4">
+          <a class="navbar-brand d-flex align-items-center gap-2" href="<%= root_path %>">
+            <div class="rounded-3 p-2 text-white d-flex align-items-center justify-content-center" style="background: var(--primary-gradient); width: 38px; height: 38px;">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <span class="fs-5 navbar-brand-gradient">EduManage</span>
+          </a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item text-light d-flex align-items-center mr-3">
-              Logged in as <strong class="ml-1"><%= current_user.email %></strong>
-            </li>
-          </ul>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarMain">
+            <ul class="navbar-nav ms-auto align-items-center gap-3 mt-3 mt-lg-0">
+              <li class="nav-item">
+                <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Mode">
+                  <i class="fa-solid fa-moon text-primary" id="themeIcon"></i>
+                </button>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 fw-semibold" href="#" role="button" data-bs-toggle="dropdown">
+                  <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                    <%= current_user.email.first.upcase %>
+                  </div>
+                  <span><%= current_user.email %></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-2">
+                  <li><%= link_to '<i class="fa-solid fa-user-pen me-2"></i>Edit Profile'.html_safe, edit_user_registration_path, class: 'dropdown-item py-2' %></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <%= link_to '<i class="fa-solid fa-right-from-bracket me-2 text-danger"></i>Logout'.html_safe, destroy_user_session_path, method: :delete, data: { confirm: 'Apakah Anda yakin ingin keluar?' }, class: 'dropdown-item py-2 text-danger' %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
+
+      <!-- MAIN LAYOUT WITH SIDEBAR -->
+      <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+          <!-- SIDEBAR NAV -->
+          <div class="col-lg-3 col-xl-2">
+            <div class="card-glass p-3">
+              <div class="text-uppercase text-muted fw-bold mb-3 px-2" style="font-size: 0.75rem; letter-spacing: 1px;">
+                Menu Utama
+              </div>
+              <div class="d-flex flex-column gap-1">
+                <% user_menus = current_user.menu_permissions.includes(:menu).where(read: true) %>
+                <% if user_menus.any? %>
+                  <% user_menus.each do |aprove| %>
+                    <% if aprove.menu&.is_active %>
+                      <a href="<%= aprove.menu.menu_route %>" class="nav-link-custom <%= 'active' if request.path == aprove.menu.menu_route %>">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span><%= aprove.menu.menu_name %></span>
+                      </a>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <!-- Default Menu Items if no explicit permissions configured -->
+                  <a href="<%= root_path %>" class="nav-link-custom <%= 'active' if request.path == root_path %>">
+                    <i class="fa-solid fa-chart-pie me-1"></i> Dashboard
+                  </a>
+                  <a href="/siswas" class="nav-link-custom <%= 'active' if request.path.start_with?('/siswas') %>">
+                    <i class="fa-solid fa-user-graduate me-1"></i> Data Siswa
+                  </a>
+                  <a href="/absensis" class="nav-link-custom <%= 'active' if request.path.start_with?('/absensis') %>">
+                    <i class="fa-solid fa-calendar-check me-1"></i> Presensi Siswa
+                  </a>
+                  <a href="/rombels" class="nav-link-custom <%= 'active' if request.path.start_with?('/rombels') %>">
+                    <i class="fa-solid fa-door-open me-1"></i> Data Rombel
+                  </a>
+                  <a href="/rayons" class="nav-link-custom <%= 'active' if request.path.start_with?('/rayons') %>">
+                    <i class="fa-solid fa-map-location-dot me-1"></i> Data Rayon
+                  </a>
+                  <a href="/jurusans" class="nav-link-custom <%= 'active' if request.path.start_with?('/jurusans') %>">
+                    <i class="fa-solid fa-book-bookmark me-1"></i> Data Jurusan
+                  </a>
+                  <a href="/menus" class="nav-link-custom <%= 'active' if request.path.start_with?('/menus') %>">
+                    <i class="fa-solid fa-list-check me-1"></i> Kelola Menu
+                  </a>
+                  <a href="/menu_permissions" class="nav-link-custom <%= 'active' if request.path.start_with?('/menu_permissions') %>">
+                    <i class="fa-solid fa-shield-halved me-1"></i> Hak Akses Menu
+                  </a>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAIN CONTENT BODY -->
+          <div class="col-lg-9 col-xl-10">
+            <% if notice %>
+              <div class="alert alert-success border-0 shadow-sm rounded-4 alert-dismissible fade show mb-4 d-flex align-items-center gap-2" role="alert">
+                <i class="fa-solid fa-circle-check fs-5"></i>
+                <div><%= notice %></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+            <% if alert %>
+              <div class="alert alert-danger border-0 shadow-sm rounded-4 alert-dismissible fade show mb-4 d-flex align-items-center gap-2" role="alert">
+                <i class="fa-solid fa-circle-exclamation fs-5"></i>
+                <div><%= alert %></div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <!-- GUEST / AUTHENTICATION PAGES -->
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <% if notice %>
+              <div class="alert alert-success border-0 shadow-sm rounded-4 alert-dismissible fade show mb-4" role="alert">
+                <%= notice %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+            <% if alert %>
+              <div class="alert alert-danger border-0 shadow-sm rounded-4 alert-dismissible fade show mb-4" role="alert">
+                <%= alert %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            <% end %>
+            <%= yield %>
+          </div>
+        </div>
+      </div>
     <% end %>
 
-    <div class="container-fluid py-4">
-      <% if user_signed_in? %>
-        <div class="row">
-          <div id="sidebar-container" class="col-md-3 col-lg-2 mb-4">
-            <div class="list-group shadow-sm">
-              <span class="list-group-item list-group-item-secondary font-weight-bold text-uppercase small">
-                Main Menu
-              </span>
-              <% current_user.menu_permissions.includes(:menu).where(read: true).each do |aprove| %>
-                <% if aprove.menu&.is_active %>
-                  <%= link_to aprove.menu.menu_name.titleize, aprove.menu.menu_route, class: 'list-group-item list-group-item-action' %>
-                <% end %>
-              <% end %>
-              <%= link_to 'Edit Profile', edit_user_registration_path, class: 'list-group-item list-group-item-warning' %>
-              <%= link_to "Logout", destroy_user_session_path, method: :delete, data: { confirm: 'Apakah Anda yakin ingin keluar?' }, class: 'list-group-item list-group-item-danger' %>
-            </div>
-          </div> <!-- End Sidebar -->
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-          <!-- MAIN CONTENT WITH SIDEBAR -->
-          <div class="col-md-9 col-lg-10">
-            <% if notice %>
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= notice %>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            <% end %>
-            <% if alert %>
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <%= alert %>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            <% end %>
-            <%= yield %>
-          </div>
-        </div>
-      <% else %>
-        <!-- MAIN CONTENT FOR GUESTS -->
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <% if notice %>
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= notice %>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            <% end %>
-            <% if alert %>
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <%= alert %>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-            <% end %>
-            <%= yield %>
-          </div>
-        </div>
-      <% end %>
-    </div>
+    <script>
+      // Dark Mode Toggle Logic
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const themeIcon = document.getElementById('themeIcon');
+      const htmlEl = document.documentElement;
 
-    <!-- Popper.JS & Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const currentTheme = htmlEl.getAttribute('data-bs-theme');
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          setTheme(newTheme);
+        });
+      }
+
+      function setTheme(theme) {
+        htmlEl.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (themeIcon) {
+          if (theme === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun text-warning';
+          } else {
+            themeIcon.className = 'fa-solid fa-moon text-primary';
+          }
+        }
+      }
+    </script>
   </body>
 </html>

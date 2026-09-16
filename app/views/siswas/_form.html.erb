@@ -1,8 +1,8 @@
 <%= form_with(model: siswa, local: true) do |form| %>
   <% if siswa.errors.any? %>
-    <div class="alert alert-danger" id="error_explanation">
-      <h5 class="alert-heading"><%= pluralize(siswa.errors.count, "error") %> prohibited this siswa from being saved:</h5>
-      <ul class="mb-0">
+    <div class="alert alert-danger border-0 rounded-4 shadow-sm mb-4" id="error_explanation">
+      <h6 class="fw-bold mb-2"><i class="fa-solid fa-triangle-exclamation me-1"></i><%= pluralize(siswa.errors.count, "error") %> gagal menyimpan data siswa:</h6>
+      <ul class="mb-0 small ps-3">
         <% siswa.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -10,38 +10,99 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= form.label :nama, "Nama Lengkap" %>
-    <%= form.text_field :nama, class: "form-control", placeholder: "Masukkan nama siswa" %>
-  </div>
+  <div class="row g-3">
+    <!-- IDENTITAS UTAMA -->
+    <div class="col-12">
+      <h6 class="fw-bold text-primary border-bottom pb-2 mb-2"><i class="fa-solid fa-id-badge me-2"></i>Identitas Utama</h6>
+    </div>
 
-  <div class="form-group">
-    <label>Jenis Kelamin</label>
-    <div>
-      <div class="form-check form-check-inline">
-        <%= form.radio_button :jk, 'Laki-laki', class: 'form-check-input', id: 'jk_laki' %>
-        <%= form.label :jk, "Laki-laki", class: 'form-check-label', for: 'jk_laki' %>
+    <div class="col-md-6">
+      <%= form.label :nisn, "NISN (Nomor Induk Siswa Nasional)", class: "form-label fw-semibold" %>
+      <%= form.text_field :nisn, class: "form-control rounded-3", placeholder: "Contoh: 0051234567" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :nis, "NIS (Nomor Induk Sekolah)", class: "form-label fw-semibold" %>
+      <%= form.text_field :nis, class: "form-control rounded-3", placeholder: "Contoh: 12100890" %>
+    </div>
+
+    <div class="col-md-8">
+      <%= form.label :nama, "Nama Lengkap Siswa *", class: "form-label fw-semibold" %>
+      <%= form.text_field :nama, class: "form-control rounded-3", placeholder: "Masukkan nama lengkap siswa", required: true %>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label fw-semibold">Jenis Kelamin *</label>
+      <div class="pt-2">
+        <div class="form-check form-check-inline">
+          <%= form.radio_button :jk, 'Laki-laki', class: 'form-check-input', id: 'jk_laki' %>
+          <%= form.label :jk, "Laki-laki", class: 'form-check-label', for: 'jk_laki' %>
+        </div>
+        <div class="form-check form-check-inline">
+          <%= form.radio_button :jk, 'Perempuan', class: 'form-check-input', id: 'jk_perempuan' %>
+          <%= form.label :jk, "Perempuan", class: 'form-check-label', for: 'jk_perempuan' %>
+        </div>
       </div>
-      <div class="form-check form-check-inline">
-        <%= form.radio_button :jk, 'Perempuan', class: 'form-check-input', id: 'jk_perempuan' %>
-        <%= form.label :jk, "Perempuan", class: 'form-check-label', for: 'jk_perempuan' %>
-      </div>
+    </div>
+
+    <!-- AKADEMIK & RAYON -->
+    <div class="col-12 mt-4">
+      <h6 class="fw-bold text-primary border-bottom pb-2 mb-2"><i class="fa-solid fa-graduation-cap me-2"></i>Akademik & Wilayah</h6>
+    </div>
+
+    <div class="col-md-5">
+      <%= form.label :rombel_id, "Rombel (Kelas) *", class: "form-label fw-semibold" %>
+      <%= form.select(:rombel_id, Rombel.includes(:jurusan).map {|r| ["#{r.jurusan&.jurusan} - #{r.rombel}", r.id]}, { prompt: "-- Pilih Rombel --" }, class: "form-select rounded-3", required: true) %>
+    </div>
+
+    <div class="col-md-4">
+      <%= form.label :rayon_id, "Rayon Wilayah *", class: "form-label fw-semibold" %>
+      <%= form.select(:rayon_id, Rayon.all.map {|r| [r.rayon, r.id]}, { prompt: "-- Pilih Rayon --" }, class: "form-select rounded-3", required: true) %>
+    </div>
+
+    <div class="col-md-3">
+      <%= form.label :status, "Status Siswa", class: "form-label fw-semibold" %>
+      <%= form.select(:status, ['Aktif', 'Lulus', 'Pindah', 'DropOut'], {}, class: "form-select rounded-3") %>
+    </div>
+
+    <!-- BIODATA DETAIL -->
+    <div class="col-12 mt-4">
+      <h6 class="fw-bold text-primary border-bottom pb-2 mb-2"><i class="fa-solid fa-user-circle me-2"></i>Biodata & Data Wali</h6>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :tempat_lahir, "Tempat Lahir", class: "form-label fw-semibold" %>
+      <%= form.text_field :tempat_lahir, class: "form-control rounded-3", placeholder: "Kota tempat lahir" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :tanggal_lahir, "Tanggal Lahir", class: "form-label fw-semibold" %>
+      <%= form.date_field :tanggal_lahir, class: "form-control rounded-3" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :telepon, "Nomor Telepon Siswa", class: "form-label fw-semibold" %>
+      <%= form.text_field :telepon, class: "form-control rounded-3", placeholder: "08XXXXXXXXXX" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :nama_ortu, "Nama Orang Tua / Wali", class: "form-label fw-semibold" %>
+      <%= form.text_field :nama_ortu, class: "form-control rounded-3", placeholder: "Nama Ayah/Ibu/Wali" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :telepon_ortu, "Nomor Telepon Ortu/Wali", class: "form-label fw-semibold" %>
+      <%= form.text_field :telepon_ortu, class: "form-control rounded-3", placeholder: "08XXXXXXXXXX" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :alamat, "Alamat Tempat Tinggal", class: "form-label fw-semibold" %>
+      <%= form.text_area :alamat, rows: 2, class: "form-control rounded-3", placeholder: "Alamat lengkap" %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= form.label :rombel_id, "Rombel" %>
-    <%= form.select(:rombel_id, Rombel.includes(:jurusan).map {|r| ["#{r.jurusan&.jurusan} - #{r.rombel}", r.id]}, { prompt: "-- Pilih Rombel --" }, class: "form-control") %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :rayon_id, "Rayon" %>
-    <%= form.select(:rayon_id, Rayon.all.map {|r| [r.rayon, r.id]}, { prompt: "-- Pilih Rayon --" }, class: "form-control") %>
-  </div>
-
-  <div class="form-group text-right">
-    <%= link_to 'Kembali', siswas_path, class: 'btn btn-secondary mr-2' %>
-    <%= form.submit "Simpan", class: "btn btn-primary" %>
+  <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+    <%= link_to 'Batal', siswas_path, class: 'btn btn-outline-secondary rounded-3 px-4' %>
+    <%= form.submit "Simpan Data Siswa", class: "btn btn-primary rounded-3 px-4 fw-bold shadow-sm" %>
   </div>
 <% end %>
-

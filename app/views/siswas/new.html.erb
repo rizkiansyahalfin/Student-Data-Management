@@ -1,17 +1,9 @@
-<div class="container">
-  <div class="card">
+<div class="mb-4">
+  <%= link_to '<i class="fa-solid fa-arrow-left me-1"></i> Kembali'.html_safe, siswas_path, class: 'btn btn-outline-secondary btn-sm rounded-3 mb-2' %>
+  <h3 class="fw-bold mb-1"><i class="fa-solid fa-user-plus text-primary me-2"></i>Tambah Data Siswa Baru</h3>
+  <p class="text-muted">Isi formulir berikut untuk memasukkan data siswa ke dalam sistem</p>
+</div>
 
-    <div class="card-header" align="center">
-      <h1>New Siswa</h1>
-    </div>
-
-    <div class="card-body">
-      <%= render 'form', siswa: @siswa %>
-    </div>
-
-    <div class="card-footer" align="center">
-      <%= link_to 'Back', siswas_path, class: 'btn btn-outline-secondary' %>
-    </div>
-    
-  </div>
+<div class="card-glass p-4 mb-4">
+  <%= render 'form', siswa: @siswa %>
 </div>

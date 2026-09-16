@@ -1,0 +1,33 @@
+<div class="mb-4">
+  <%= link_to '<i class="fa-solid fa-arrow-left me-1"></i> Kembali'.html_safe, absensis_path(tanggal: @absensi.tanggal), class: 'btn btn-outline-secondary btn-sm rounded-3 mb-2' %>
+  <h3 class="fw-bold mb-1"><i class="fa-solid fa-pen-to-square text-primary me-2"></i>Edit Catatan Presensi</h3>
+</div>
+
+<div class="card-glass p-4" style="max-width: 600px;">
+  <%= form_with model: @absensi, local: true do |f| %>
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Nama Siswa</label>
+      <input type="text" class="form-control rounded-3" value="<%= @absensi.siswa&.nama %>" disabled>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Tanggal Presensi</label>
+      <%= f.date_field :tanggal, class: 'form-control rounded-3' %>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Status Presensi</label>
+      <%= f.select :status_presensi, Absensi::STATUS_LIST, {}, class: 'form-select rounded-3' %>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Keterangan</label>
+      <%= f.text_field :keterangan, class: 'form-control rounded-3', placeholder: 'Keterangan tambahan (opsional)' %>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+      <%= link_to 'Batal', absensis_path(tanggal: @absensi.tanggal), class: 'btn btn-outline-secondary rounded-3' %>
+      <%= f.submit 'Update Presensi', class: 'btn btn-primary rounded-3 px-4' %>
+    </div>
+  <% end %>
+</div>

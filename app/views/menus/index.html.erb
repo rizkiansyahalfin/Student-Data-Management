@@ -1,51 +1,105 @@
-<p id="notice"><%= notice %></p>
-<title>Menu</title>
-<div class="container">
-  <div class="card">
-      <div class="card-header">
-        <h1 align="center">Menu</h1>
-      </div>
-      <div class="card-body">
-        <div class="col-md-12">
-          <div class="container">
-            <%= link_to 'New Menu', new_menu_path, class: 'btn btn-primary' %>
-          </div>
-        </div>
-        <br>
-        <table class="table table-bordered table-striped table-hover table-condensed table-sm">
-          <caption>Table Menu</caption>
-          <thead class="table-dark">
-            <tr align="center">
-              <th>Menu Name</th>
-              <th>Menu Route</th>
-              <th>Is Active</th>
-              
-              <th colspan="3">Action</th>
-            </tr>
-          </thead>
+<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
+  <div>
+    <h3 class="fw-bold mb-1"><i class="fa-solid fa-chart-pie text-primary me-2"></i>Dashboard System</h3>
+    <p class="text-muted mb-0">Ringkasan statistik data institusi dan pengelolaan menu sistem</p>
+  </div>
+  <div class="d-flex gap-2">
+    <%= link_to '<i class="fa-solid fa-user-plus me-1"></i> Tambah Siswa'.html_safe, new_siswa_path, class: 'btn btn-primary rounded-3 shadow-sm' %>
+    <%= link_to '<i class="fa-solid fa-plus me-1"></i> New Menu'.html_safe, new_menu_path, class: 'btn btn-outline-primary rounded-3' %>
+  </div>
+</div>
 
-          <tbody align="center">
-            <% @menus.each do |menu| %>
-              <tr>
-                <td><%= menu.menu_name.capitalize %></td>
-                <td><%= menu.menu_route %></td>
-                <td>
-                  <% if menu.is_active == true %>
-                    <%= "Active"%>
-                  <% else %>
-                    <%= "Non Active" %>
-                  <% end%>
-                </td>
-                
-                <td align="center" width="10%"><%= link_to 'Show', menu, class: 'btn btn-info' %></td>
-                <td align="center" width="10%"><%= link_to 'Edit', edit_menu_path(menu), class: 'btn btn-warning' %></td>
-                <td align="center" width="10%"><%= link_to 'Destroy', menu, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+<!-- STATS OVERVIEW CARDS -->
+<div class="row g-3 mb-4">
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-glass p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="text-muted small text-uppercase fw-bold">Total Siswa</span>
+        <div class="rounded-3 p-2 bg-primary bg-opacity-10 text-primary">
+          <i class="fa-solid fa-user-graduate fs-5"></i>
+        </div>
       </div>
+      <div class="fs-2 fw-bold"><%= Siswa.count %></div>
+      <small class="text-success"><i class="fa-solid fa-circle-check me-1"></i><%= Siswa.where(status: 'Aktif').count %> Siswa Aktif</small>
     </div>
   </div>
-        <br>
-        
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-glass p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="text-muted small text-uppercase fw-bold">Presensi Hari Ini</span>
+        <div class="rounded-3 p-2 bg-success bg-opacity-10 text-success">
+          <i class="fa-solid fa-calendar-check fs-5"></i>
+        </div>
+      </div>
+      <div class="fs-2 fw-bold"><%= Absensi.pada_tanggal(Date.today).hadir.count %></div>
+      <small class="text-muted">Dari <%= Siswa.where(status: 'Aktif').count %> siswa hari ini</small>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-glass p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="text-muted small text-uppercase fw-bold">Total Rombel</span>
+        <div class="rounded-3 p-2 bg-info bg-opacity-10 text-info">
+          <i class="fa-solid fa-door-open fs-5"></i>
+        </div>
+      </div>
+      <div class="fs-2 fw-bold"><%= Rombel.count %></div>
+      <small class="text-muted">Kelas terdaftar</small>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card-glass p-3 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="text-muted small text-uppercase fw-bold">Rayon & Jurusan</span>
+        <div class="rounded-3 p-2 bg-warning bg-opacity-10 text-warning">
+          <i class="fa-solid fa-layer-group fs-5"></i>
+        </div>
+      </div>
+      <div class="fs-2 fw-bold"><%= Rayon.count %> <span class="fs-6 text-muted fw-normal">/ <%= Jurusan.count %> Jurusan</span></div>
+      <small class="text-muted">Wilayah rayon aktif</small>
+    </div>
+  </div>
+</div>
+
+<!-- MENU MANAGEMENT SECTION -->
+<div class="card-glass p-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="fw-bold mb-0"><i class="fa-solid fa-bars-staggered me-2 text-primary"></i>Pengelolaan Daftar Menu</h5>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Nama Menu</th>
+          <th>Route / Path</th>
+          <th>Status</th>
+          <th class="text-end">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @menus.each do |menu| %>
+          <tr>
+            <td class="fw-semibold"><%= menu.menu_name.capitalize %></td>
+            <td><code><%= menu.menu_route %></code></td>
+            <td>
+              <% if menu.is_active %>
+                <span class="badge badge-soft-success rounded-pill px-3 py-1">Aktif</span>
+              <% else %>
+                <span class="badge badge-soft-danger rounded-pill px-3 py-1">Non-Aktif</span>
+              <% end %>
+            </td>
+            <td class="text-end">
+              <%= link_to '<i class="fa-solid fa-eye"></i>'.html_safe, menu, class: 'btn btn-sm btn-outline-info rounded-2 me-1' %>
+              <%= link_to '<i class="fa-solid fa-pen-to-square"></i>'.html_safe, edit_menu_path(menu), class: 'btn btn-sm btn-outline-warning rounded-2 me-1' %>
+              <%= link_to '<i class="fa-solid fa-trash"></i>'.html_safe, menu, method: :delete, data: { confirm: 'Yakin hapus menu ini?' }, class: 'btn btn-sm btn-outline-danger rounded-2' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

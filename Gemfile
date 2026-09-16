@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '>= 2.7.0'
 
+gem 'csv'
 gem 'net-smtp'
 gem 'net-pop'
 gem 'net-imap'
@@ -86,6 +87,7 @@ gem 'kaminari'
 # Login with devise
 gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
+gem 'jwt'
 
 # Import dan Export Exel
 gem 'axlsx', '2.1.0.pre'
